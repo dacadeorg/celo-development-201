@@ -1,51 +1,38 @@
-
-# **Celo Development 102**
-
-
-## Building the Frontend of the DApp
-
+# Celo 201 - Build an NFT Minter with Hardhat and React
 In this chapter, you will learn how to build the user interface of your NFT minter, connect it to your smart contract and host it on GitHub.
 
+### Tech Stack
+We will use the following tech stack in this learning module:
+* Hardhat - A Solidity development environment
+* React - A JavaScript library for building user interfaces
+* Bootstrap - A CSS framework
+* useContractKit - A React hook to interact with the Celo Blockchain
+* IPFS - A distributed file storage system
 
-### **Learning Objective**
+// TODO: Add links to projects
 
-After completing this chapter, you will:
+### Prerequisites
+You will need the following for this tutorial:
 
+* [Node JS](https://nodejs.org/en/download/) - Please make sure you have Node.js v12 or higher installed.
+* [Yarn](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) - You will need to have Yarn installed on your machine.
 
+### About
+This tutorial will walk you through building a NFT minter with Celo.
+// TODO: add more explanation about what we are going to build
 
-* Understand how to use React to build the frontend of your Dapp
-* Understand React hooks and how to use them.
-* Connect your DApp to your smart contract on the Celo blockchain with the library celo-tools.
-* Learn how to mint NFTs.
-
-**Prerequisites**
-
-Tools you will need for this project include
-
-
-
-* Any code editor (VS Code Recommended)
-* [Node JS](https://nodejs.org/en/download/)
-* [Npm/Yarn](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-* [React](https://reactjs.org/docs/getting-started.html)
-
-**1.0. Initializing your project**
-
-**	**
-
+## 1. Project Setup
 Firstly, you need to initialize a new React project. We would do that using the famous ‘create-react app’. You should have installed node.js 10 or higher.
 
-
-
-1. Open your command-line interface
-2. Install ‘create-react-app’ inside your directory of choice via your terminal using the command below:
-
-    	 ​​npm install create-react-app
-
+1. Open your terminal and navigate to the directory where you want to create your project.
+2. Run the following command:
+```
+npm install create-react-app
+```
 3. Initialize the project using the following command:
-
-         ​​npx create-react-app nft-minter
-
+```
+​​npx create-react-app nft-minter
+```
 4. Navigate into the project:
 
         cd nft-minter
@@ -54,23 +41,18 @@ Firstly, you need to initialize a new React project. We would do that using the 
 
 
 5. Install the required dependencies with the command:
-
-
 ```
 npm install react-bootstrap bootstrap-icons bootstrap big-number axios ipfs-http-client prop-types react-toastify @metamask/jazzicon
 ```
 
-
-
 6. Start a local development server:
 ​​`npm start`
 
+Your project should be running here http://localhost:3000/
 
-	Your project should be running here http://localhost:3000/
+## 2. Building the User Interface 
 
-### 2.0. Building the User Interface 
-
-#### 2.1. Let us do a little cleanup first.
+### 2.1 Let us do a little cleanup first.
 
 
 
@@ -226,11 +208,11 @@ export default Cover;
 
 In case you don't know what propTypes are, PropTypes are **a mechanism to ensure that components use the correct data type and pass the right data**, that components use the right type of props, and that receiving components receive the right type of props. [Click to know more](https://reactjs.org/docs/typechecking-with-proptypes.html).
 
-**2.2. UI Components**
+### 2.2 UI Components
 
 Lets go ahead and create UI components we will be using throughout our DApp.
 
-**2.2.1. Notification Library**
+### 2.2.1 Notification Library
 
 In order to show users updates on functions happening under the hood in the Dapp, we need to display notifications. In this example we will be using _react-toastify _ which you must have installed earlier.
 
@@ -289,7 +271,7 @@ export { Notification, NotificationSuccess, NotificationError };
 ```
 
 
-**2.2.2. Loading Component**
+### 2.2.2. Loading Component
 
 Under the _'components/ui'_ path, create a new file called _'Loader.js'_ and paste in the code below.
 
@@ -313,7 +295,7 @@ export default Loader;
 
 We are using the Spinner component from [_react-bootstrap._](https://react-bootstrap.github.io/)
 
-**2.2.3. Identicons**
+### 2.2.3. Identicons
 
 An Identicon is a visual representation of a hash value, usually of an address, that serves to identify an address as a form of avatar.
 
@@ -345,12 +327,12 @@ export default function Identicon({address, size, ...rest}) {
 
 We basically shorten the user address and pass it into the Jazzicon to create an identicon. We then put that into a useEffect hook which makes this function run anytime this component renders and also when the address and size values in the useEffect dependency array changes.
 
-**2.3. Wallet**
+### 2.3. Wallet
 
 Lets go ahead and create components that will interact directly with a users account or wallet. Go ahead and create a folder called _'wallet'_ under _'src/components'_.
 
   
-**2.3.1. User’s Address**
+#### 2.3.1. User’s Address
 
 This component will format and display the connected user’s address.
 
@@ -392,7 +374,7 @@ export default Address;
 
 We are using a function called truncateAddress which shortens an address into a more usable format. This function has not yet been created and we will create it later on in this tutorial.
 
-**2.3.2. User’s Wallet Balance**
+#### 2.3.2 User’s Wallet Balance
 
 This component will format and display the connected user’s cUSD balance.
 
@@ -438,7 +420,7 @@ export default Balance;
 
 We are using a function called _formatBigNumber_ which converts a big number from wei to ethers. This function has not yet been created and we will create it later on in this tutorial.
 
-**2.3.3. User’s Wallet Interface**
+#### 2.3.3. User’s Wallet Interface
 
 Let us create an interface in which users can interact with their wallet. Go ahead and create an _'index.js'_ file under the directory _'src/components/wallet'_. This file will expect some props which include;
 
@@ -522,7 +504,7 @@ Finally, we have a disconnect button which enables a user to disconnect his wall
 ```
 
 
-**2.4. Mint and List NFTs.**
+### 2.4. Mint and List NFTs.
 
 In this section we will cover the processes of minting and listing NFTs.
 
@@ -530,7 +512,7 @@ Firstly, let us create a folder under the path _src/components _called minter.
 
 Next we create another folder called _'nfts'_ such that the path is _'src/components/minter/nfts'_.
 
-**2.4.1 Index.**
+### 2.4.1 Index.
 
 Firstly, let us create a file called _'index.js'_ under the nfts folder called _'index.js'_.
 
@@ -703,7 +685,7 @@ export default NftList;
 ```
 
 
-**2.4.2 Add NFT.**
+#### 2.4.2 Add NFT.
 
 Let us go ahead and create a file under the _'nfts'_ folder called _'Add.js'_. This file will contain the code for the interface through which users can mint NFTs to the blockchain.
 
@@ -975,7 +957,7 @@ export default AddNfts;
 ```
 
 
-**2.4.3 List NFTs.**
+#### 2.4.3 List NFTs.
 
 Let us go ahead and create the Nft component which we imported in our _'index.js'_	file. This component will contain the design in which our NFT will be displayed to the users.
 
@@ -1064,11 +1046,10 @@ export default NftCard;
 ```
 
 
-**3.0 Utils.**
-
+## 3. Utils
 This folder will contain all the constant variables and helper functions we would need throughout the DApp and also imported in the components above. This helps decouple our application and create reusable functions. Create a sub folder called _'utils’_ under the _'src'_ folder.
 
-**3.1 Constants.**
+### 3.1 Constants.
 
 Let us go ahead and create a file called _'constants.js’_ under the utils folder. This will store the values which remain the same throughout the lifespan of our DApp. In this case we have just the ERC20 decimal which defaults to 18 based on the ERC20 token standard.
 
@@ -1081,7 +1062,7 @@ export { ERC20_DECIMALS };
 
 We then export this value to the rest of the codebase.
 
-**3.2 Index.**
+### 3.2 Index.
 
 Let us go ahead and create a file called _'index.js'_ under the utils folder. This file will contain 2 functions :
 
@@ -1119,7 +1100,7 @@ import {ERC20_DECIMALS} from "./constants";
 ```
 
 
-**3.3 Minter.**
+### 3.3 Minter.
 
 Let us go ahead and create a file called _'minter.js'_ . Basically, this file will contain all the login we use in creating and fetching our NFTs.
 
@@ -1381,7 +1362,7 @@ Resolve the promise with your NFT data and then push your nft object to your nft
 
 With that we are done with our helper functions!.
 
-**4.0 Hooks.**
+## 4. Hooks
 
 In this section we’d be going over the hooks we will use in this DApp.
 
@@ -1393,7 +1374,7 @@ This folder will contain all the custom hooks we will be creating.
 
 We will make use of some inbuilt react hooks to create our own custom hooks. We will also use the useContractKit from celo-tools/use-contractkit.
 
-**4.1 useBalance.**
+### 4.1 useBalance.
 
 Let us create our first hook called useBalance. This hook will basically return the balance of the wallet connected to our DApp.
 
@@ -1463,7 +1444,7 @@ return {
 ```
 
 
-**4.2 useContract.**
+### 4.2 useContract.
 
 Let us go ahead and create a new hook. First, create a file called _'useContract.js'_ under the _hooks_ folder.
 
@@ -1522,7 +1503,7 @@ useEffect(() => {
 ```
 
 
-**4.3 useMinterContract.**
+### 4.3 useMinterContract.
 
 Finally, let us create our last hook called useMinterContract. This hook is basically going to call the useContract hook and return the RPC.
 
@@ -1552,7 +1533,7 @@ export * from './useContract';
 ```
 
 
-**5.0 Piecing It All Together**
+## 5. Piecing It All Together.
 
 Finally, we are done with all our hooks, helper functions and UI components, we can piece everything together to ensure our DApp works fine.
 
@@ -1719,7 +1700,7 @@ Finally we update the dapp to enter the data about our application which include
 
 The rest of the code is boilerplate code provided to use when you create your react app with create-react-app and we don't need to bother about that in this tutorial.
 
-**6.0 Deploy your DApp to Netlify**
+## 6. Deploy your DApp to Netlify
 
 Now you can get a React project up and running with a few commands, and in less than 30 seconds you can have it deployed with Netlify.
 
