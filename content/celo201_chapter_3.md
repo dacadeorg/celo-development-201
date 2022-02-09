@@ -22,35 +22,25 @@ This tutorial will walk you through building a NFT minter with Celo.
 // TODO: add more explanation about what we are going to build
 
 ## 1. Project Setup
-Firstly, you need to initialize a new React project. We would do that using the famous ‘create-react app’. You should have installed node.js 10 or higher.
+Firstly, go ahead and clone or download the Celo react boilerplate code locally.
 
-1. Open your terminal and navigate to the directory where you want to create your project.
-2. Run the following command:
+1. Open your terminal and navigate to the directory where downloaded the boilerplate code.
+2. Install the dependencies with the command:
 ```
-npm install create-react-app
+npm install
 ```
-3. Initialize the project using the following command:
-```
-​​npx create-react-app nft-minter
-```
-4. Navigate into the project:
 
-        cd nft-minter
-       
-
-
-
-5. Install the required dependencies with the command:
+3. For this project we will need some other packages from NPM. Go ahead and run this command:
 ```
-npm install react-bootstrap bootstrap-icons bootstrap big-number axios ipfs-http-client prop-types react-toastify @metamask/jazzicon
+npm install axios ipfs-http-client
 ```
 
 6. Start a local development server:
-​​`npm start`
+   ​​`npm start`
 
-Your project should be running here http://localhost:3000/
+Your boilerplate should be running here http://localhost:3000/
 
-## 2. Building the User Interface 
+## 2. Building the User Interface
 
 ### 2.1 Let us do a little cleanup first.
 
@@ -58,76 +48,63 @@ Your project should be running here http://localhost:3000/
 
 Navigate to the ‘public/index.html’ page and change the title and meta description of your website to your preferred texts. This step is optional.
 
+Next, you can go to the *'index.js'* file and change the name and description values inside the ContractKitProvider wrapper to your project title and description. This set is also optional.
+
 Secondly, Open the src folder and delete the ‘App.test.js’, and ‘setupTests.js’ files. We will not be needing these files for this tutorial.
 
-Next up, Navigate to the App.js file and replace its contents with the following boilerplate:
+
+<!-- Next, we add a cover image. Create a folder called _‘assets'_ under the _'src'_ folder , _‘src/assets’ then proceed by creating a folder inside of the ‘assets’ folder created called ‘img’ and then paste the ‘nft_geo_cover.png’ image file._
+ -->
+
+### 2.2 Explaining the boilerplate code
+
+The boilerplate code consists of a couple of components in the *'src'* folder we would briefly discuss.
+
+Firstly, the *'assets'* folder will be where we would save images we would be using in our NFT minter.
+
+Secondly, in the components folder will, we will create reusable components which we can import into other files to handle various individual functions and display pieces of UI we would need.
+
+Thirdly, we have the contracts folder which has two files: *'MyContract.json'* which stores the contracts ABIs and bytecode, and *'MyContractAddress.json'* which as the name implies will store the address of the deployed contract.
+We would not manually update this files throughout our development as it will be updated automatically for us during contract deployment with truffle.
+
+Next we have the *'hooks'* folder which contains the hooks used in our DApp. Hooks are a new addition to React in version 16.8 that allows you use state and other React features, like lifecycle methods, without writing a class.
+
+finally we have the *'utils'* folder which will store helper functions and constant values.
+
+
+### 2.2 Updating the UI
+
+#### 2.1 Cover Page
+
+Let us start by updating the code in the *'app.js'* file. Inside this file,
+we are fetching the address of the user wallet that is connected to this dapp with the useContractKit() function.
+```
+  const {address} = useContractKit()
+```
+
+Next we perform a tenary statement to check if the address is not null or undefined and display the Counter component else it will display the Cover page which prompts the user to connect his wallet.
 
 
 ```
-Import "./App.css";
-const App = function AppWrapper() {
+...
+ return (
+        <div className="App">
+            <header className="App-header">
+                {address ?
+                    <Counter/>
+                    :
+                    <Cover/>
+                }
 
-return (
-<h1>Hello World</h1>
-)
+            </header>
+        </div>
+    );
 }
-
-export default App
 ```
 
+Firstly let us go ahead and customize the Cover component a bit. Navigate to *'components/Cover.js'* file.
 
-Remove all the contents of 'App.css' as well and replace it with the following code:
-
-
-```
-.cover {
- background-image: radial-gradient( circle farthest-corner at 10% 20%,
- #35D07F 0%, #2aa666 47.7%, #207d4c 92.3% );
- border-radius: .5em;
-}
-.vh-80 {
- height: 80vh!important;
-}
-```
-
-
-Finally, replace the index.css file with the following code:
-
-
-```
-body {
- margin: 0;
- font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-   sans-serif;
- -webkit-font-smoothing: antialiased;
- -moz-osx-font-smoothing: grayscale;
-}
-
-code {
- font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-   monospace;
-}
-```
-
-
-Next, we add a cover image. Create a folder called _‘assets'_ under the _'src'_ folder , _‘src/assets’ then proceed by creating a folder inside of the ‘assets’ folder created called ‘img’ and then paste the ‘nft_geo_cover.png’ image file._
-
-
-
-![alt_text](../images/image2.png "image_tooltip")
-
-
-Fig 2.1
-
-This will serve as a cover page for the DApp when the user is not connected to Metamask.
-
-Finally, let us create a component to display this page.
-
-To do that, create a folder called _components_, like so _‘src/components’_  then create a file called _‘Cover.js’_. 
-
-We go ahead and import the necessary libraries for this component in the newly created _‘Cover.js’_ file:
-
+Replace the imports with the following
 
 ```
 import React from 'react';
@@ -136,7 +113,7 @@ import PropTypes from 'prop-types';
 ```
 
 
-Next, paste the following code below in the Cover.js file after importing the libraries needed:
+Next, we declare the Cover component and replace the code:
 
 
 ```
@@ -208,313 +185,117 @@ export default Cover;
 
 In case you don't know what propTypes are, PropTypes are **a mechanism to ensure that components use the correct data type and pass the right data**, that components use the right type of props, and that receiving components receive the right type of props. [Click to know more](https://reactjs.org/docs/typechecking-with-proptypes.html).
 
-### 2.2 UI Components
-
-Lets go ahead and create UI components we will be using throughout our DApp.
-
-### 2.2.1 Notification Library
-
-In order to show users updates on functions happening under the hood in the Dapp, we need to display notifications. In this example we will be using _react-toastify _ which you must have installed earlier.
-
-Firstly you create the folders _'components/ui'_ under the src folder.
-
-Inside the _'ui'_ folder , create a file called _'Notifications.js'_ and paste the following code
+Finally let us go back into our *'App.js'* file and replace the Cover code with the following:
 
 ```
-import React from 'react';
-import PropTypes from 'prop-types';
-import {ToastContainer} from 'react-toastify';
-
-const Notification = () => (
- <ToastContainer
-   position="bottom-center"
-   autoClose={5000}
-   hideProgressBar
-   newestOnTop
-   closeOnClick
-   rtl={false}
-   pauseOnFocusLoss
-   draggable={false}
-   pauseOnHover
- />
-);
-
-const NotificationSuccess = ({ text }) => (
- <div>
-   <i className="bi bi-check-circle-fill text-success mx-2" />
-   <span className="text-secondary mx-1">{text}</span>
- </div>
-);
-
-const NotificationError = ({ text }) => (
- <div>
-   <i className="bi bi-x-circle-fill text-danger mx-2" />
-   <span className="text-secondary mx-1">{text}</span>
- </div>
-);
-
-const Props = {
- text: PropTypes.string,
-};
-
-const DefaultProps = {
- text: '',
-};
-
-NotificationSuccess.propTypes = Props;
-NotificationSuccess.defaultProps = DefaultProps;
-
-NotificationError.propTypes = Props;
-NotificationError.defaultProps = DefaultProps;
-
-export { Notification, NotificationSuccess, NotificationError };
+    ...
+   
+   <Cover name="GEO Collection" coverImg={coverImg} connect={connect}/>
 ```
-
-
-### 2.2.2. Loading Component
-
-Under the _'components/ui'_ path, create a new file called _'Loader.js'_ and paste in the code below.
-
+We need to import the coverImg into this file. Create a folder called *'img'* under the *'assets'* folder and save the cover image. You can get this image from the complete code on the Github repository. We then import it.
 
 ```
-import React from 'react';
-import { Spinner} from "react-bootstrap";
-const Loader = () => (
-
-
- <div className="d-flex justify-content-center">
-   <Spinner animation="border" role="status" className="opacity-25">
-     <span className="visually-hidden">Loading...</span>
-   </Spinner>
- </div>
-
-);
-export default Loader;
+import coverImg from "./assets/img/nft_geo_cover.png";
 ```
 
+Next we import the destroy function as well from useContractKit hook.
+This function basically disconnects a user's wallet from the DApp when called.
 
-We are using the Spinner component from [_react-bootstrap._](https://react-bootstrap.github.io/)
+ ```
+ ...
+ 
+ const App = function AppWrapper() {
+   const {address, destroy, connect} = useContractKit()
+ ```
 
-### 2.2.3. Identicons
+### 2.2.2 Notification Library
 
-An Identicon is a visual representation of a hash value, usually of an address, that serves to identify an address as a form of avatar.
-
-Under the _'components/ui'_ path, create a new file called _'Identicon.js'_ and paste in the code below.
-
+In order to show users updates on functions happening under the hood in the DApp, we need to display notifications. We can import the Notification component that exist in the boilerplate code into our *'App.js'* file.
 
 ```
-import { useEffect, useRef } from "react";
-import Jazzicon from "@metamask/jazzicon";
+...
+import { Notification } from "./components/ui/Notifications";
+```
 
-export default function Identicon({address, size, ...rest}) {
- const ref = useRef();
-
- useEffect(() => {
-   if (address && ref.current) {
-     ref.current.innerHTML = "";
-     ref.current.appendChild(Jazzicon(size, parseInt(address.slice(2, 10), 16)));
-   }
- }, [address, size]);
+Next we render the notification component
+```
+... 
 
  return (
-   <div {...rest} >
-       <div ref={ref} style={{width:`${size}px`,height:`${size}px`}}  />
-   </div>
- )
-}
+      <>
+        <Notification/>
 ```
 
 
-We basically shorten the user address and pass it into the Jazzicon to create an identicon. We then put that into a useEffect hook which makes this function run anytime this component renders and also when the address and size values in the useEffect dependency array changes.
+<!-- Next we remove the *'Counter'* component from the *'App.js'* file as we do not need it. We then  -->
 
-### 2.3. Wallet
+### 2.2.3. Wallet
 
-Lets go ahead and create components that will interact directly with a users account or wallet. Go ahead and create a folder called _'wallet'_ under _'src/components'_.
-
-  
-#### 2.3.1. User’s Address
 
 This component will format and display the connected user’s address.
+Firstly, we import this component into our *'App.js'* file.
 
-Let us create a file called _'Address.js'_ under _'src/components/wallet'_ and paste the following code into it
+```
+...
 
+import Wallet from "./components/wallet";
+```
+Before we render this component, lets go ahead and remove the *'Counter'* component from our *'App.js'* file. Remove the import and also the code below from the body of this file.
+```
+...
 
+    {address ?
+        <Counter/>
+```
+
+We then replace the code above with our Wallet component
+```
+...
+
+<Container fluid="md">
+              <Nav className="justify-content-end pt-3 pb-5">
+                <Nav.Item>
+
+                  {/*display user wallet*/}
+                  <Wallet
+                      address={address}
+                      amount={balance.CELO}
+                      symbol="CELO"
+                      destroy={destroy}
+                  />
+                </Nav.Item>
+              </Nav>
+            </Container>
+
+```
+In the code above we passed the Celo balance of the connected user wallet into the Wallet component via props. We dont have this data yet.
+We get this data by using the useBalance hook from our boilerplate code.
+Let us first import it into this file:
 ```
 import React from "react";
-// import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import PropTypes from "prop-types";
-import {truncateAddress} from "../../utils";
-import {Button} from "react-bootstrap";
 
-const Address = ({ address }) => {
- if (address) {
-   return (
-       <Button variant="outline-secondary" className="rounded-pill">
+...
 
-         {/* format user wallet address to a more suitable display */}
-         {truncateAddress(address)}
-       </Button>
-   );
- }
-
- return null;
-};
-
-Address.propTypes = {
- address: PropTypes.string,
-};
-
-Address.defaultProps = {
- address: "",
-};
-
-export default Address;
+import { useBalance } from "./hooks";
 ```
-
-
-We are using a function called truncateAddress which shortens an address into a more usable format. This function has not yet been created and we will create it later on in this tutorial.
-
-#### 2.3.2 User’s Wallet Balance
-
-This component will format and display the connected user’s cUSD balance.
-
-Let us create a file called _'Address.js'_ under _'src/components/wallet'_ and paste the following code into it
-
+Next we call the hook before our return statement
+```
+  const {balance, getBalance} = useBalance();
 
 ```
-import React from "react";
-import PropTypes from "prop-types";
-import {formatBigNumber} from "../../utils";
-
-const Balance = ({ amount, symbol }) => {
- if (amount) {
-   return (
-     <div>
-
-       <span id="balance">
-
-       {/* convert big number from wei */}
-           ${formatBigNumber(amount)}
-       </span>
-         <span className="">{symbol}</span>
-     </div>
-   );
- }
-
- return null;
-};
-
-Balance.propTypes = {
- symbol: PropTypes.string,
- amount: PropTypes.number,
-};
-
-Balance.defaultProps = {
- amount: 0,
- symbol: "",
-};
-
-export default Balance;
-```
+This hook exports the balance of the connected wallet as well as a getBalance function to manually fetch the user's balance.
 
 
-We are using a function called _formatBigNumber_ which converts a big number from wei to ethers. This function has not yet been created and we will create it later on in this tutorial.
-
-#### 2.3.3. User’s Wallet Interface
-
-Let us create an interface in which users can interact with their wallet. Go ahead and create an _'index.js'_ file under the directory _'src/components/wallet'_. This file will expect some props which include;
-
-* address: this is the address of the connected wallet
-* amount : the amount of cUSD present in the user wallet
-* symbol : the symbol of the token
-* destroy : this is a function from the useContractKit which enables a user to disconnect/log out his wallet from the DApp.
-
-  Let us go ahead and import the necessary libraries and components we will need for this step.
-
-
-```
-import React from 'react';
-import {Dropdown, Stack, Spinner} from 'react-bootstrap';
-import {formatBigNumber, truncateAddress} from '../../utils';
-import Identicon from '../ui/Identicon'
-```
-
-
-Next we process with the component with the code below :
-
-
-```
-const Wallet = ({address, amount, symbol, destroy}) => {
-   if (address) {
-       return <>
-
-           <Dropdown>
-               <Dropdown.Toggle variant="light" align="end" id="dropdown-basic"
-                                className="d-flex align-items-center border rounded-pill py-1">
-                   {amount ? (
-                       <>{formatBigNumber(amount)} <span className="ms-1"> {symbol}</span></>
-                   ) : (<Spinner animation="border" size="sm" className="opacity-25"/>)}
-                   <Identicon address={address} size={28} className="ms-2 me-1"/>
-               </Dropdown.Toggle>
-
-     <Dropdown.Menu className="shadow-lg border-0" >
-       <Dropdown.Item href={`https://alfajores-blockscout.celo-testnet.org/address/${address}/transactions`}  target="_blank">    
-           <Stack direction="horizontal" gap={2}>
-               <i className="bi bi-person-circle fs-4" />
-               <span className="font-monospace">{truncateAddress(address)}</span>
-           </Stack>
-       </Dropdown.Item>
-       <Dropdown.Divider />
-       <Dropdown.Item as="button" className="d-flex align-items-center"  onClick={() => {destroy()}} >
-           <i className="bi bi-box-arrow-right me-2 fs-4" />
-           Disconnect
-       </Dropdown.Item>
-     </Dropdown.Menu>
-   </Dropdown>
-  
-   </>
- }
-
- return null;
-};
-
-export default Wallet;
-```
-
-
-Let us go over the code we wrote above.
-We are using the Spinner library which shows a loading animation while the amount has not yet been fetched.
-
-
-```
-{amount ? (
-   <>{formatBigNumber(amount)} <span className="ms-1"> {symbol}</span></>
-) : (<Spinner animation="border" size="sm" className="opacity-25"/>)}
-```
-
-
-Finally, we have a disconnect button which enables a user to disconnect his wallet from the DApp using the destroy function imported from the useContractKit.
-
-
-```
-<Dropdown.Item as="button" className="d-flex align-items-center"  onClick={() => {destroy()}} >
-   <i className="bi bi-box-arrow-right me-2 fs-4" />
-   Disconnect
-</Dropdown.Item>
-```
-
-
-### 2.4. Mint and List NFTs.
+### 2.3. Mint and List NFTs.
 
 In this section we will cover the processes of minting and listing NFTs.
 
-Firstly, let us create a folder under the path _src/components _called minter.
+Firstly, let us rename the *'dapp'* folder under the components folder to  *'minter'*, then create another folder called *'nfts'* under this folder.
 
-Next we create another folder called _'nfts'_ such that the path is _'src/components/minter/nfts'_.
 
 ### 2.4.1 Index.
 
-Firstly, let us create a file called _'index.js'_ under the nfts folder called _'index.js'_.
+Firstly, let us create a file called *'index.js'* under the nfts folder called *'index.js'*.
 
 This folder will be responsible for displaying the add NFT and list NFT components.
 
@@ -541,7 +322,7 @@ import { Row } from "react-bootstrap";
 
 In this component, we will be using the useContractKit from the celo-tools library which exposes us to a ton of cool features needed for this DApp.
 
-We also import the AddNfts and Nft component which we will create later on in the tutorial. We also imported some helper functions from the _'utils/minter'_ which we will also create later on this tutorial.
+We also import the AddNfts and Nft component which we will create later on in the tutorial. We also imported some helper functions from the *'utils/minter'* which we will also create later on this tutorial.
 
 Let us go ahead to declare the component :
 
@@ -687,9 +468,9 @@ export default NftList;
 
 #### 2.4.2 Add NFT.
 
-Let us go ahead and create a file under the _'nfts'_ folder called _'Add.js'_. This file will contain the code for the interface through which users can mint NFTs to the blockchain.
+Let us go ahead and create a file under the *'nfts'* folder called *'Add.js'*. This file will contain the code for the interface through which users can mint NFTs to the blockchain.
 
-Let us start by importing the necessary libraries/components for this file.
+Let us start by importing the necessary components for this file.
 
 
 ```
@@ -776,7 +557,7 @@ address : this is the address of the user that is connected to the DApp.
 
 We use proptypes to ensure that this data is passed down to this component correctly else an error will be displayed.
 
-Firstly, we use [useState](https://reactjs.org/docs/hooks-state.html) to temporarily store data in our components state when interacting with our DApp.
+Firstly, we use [useState](https://reactjs.org/docs/hooks-state.html) hook to temporarily store data in our components state when interacting with our DApp.
 
 Next, we use the isFormFilled function above to ensure that the form is filled before allowing a user to mint an NFT.
 
@@ -959,9 +740,9 @@ export default AddNfts;
 
 #### 2.4.3 List NFTs.
 
-Let us go ahead and create the Nft component which we imported in our _'index.js'_	file. This component will contain the design in which our NFT will be displayed to the users.
+Let us go ahead and create the Nft component which we imported in our *'index.js'*	file. This component will contain the design in which our NFT will be displayed to the users.
 
-Firstly let us create a file under the _nfts_ folder called ‘_Card.js’_. Next we go ahead to import the necessary libraries.
+Firstly let us create a file under the _nfts_ folder called *‘Card.js’*. Next we go ahead to import the necessary libraries.
 
 
 ```
@@ -1047,62 +828,11 @@ export default NftCard;
 
 
 ## 3. Utils
-This folder will contain all the constant variables and helper functions we would need throughout the DApp and also imported in the components above. This helps decouple our application and create reusable functions. Create a sub folder called _'utils’_ under the _'src'_ folder.
-
-### 3.1 Constants.
-
-Let us go ahead and create a file called _'constants.js’_ under the utils folder. This will store the values which remain the same throughout the lifespan of our DApp. In this case we have just the ERC20 decimal which defaults to 18 based on the ERC20 token standard.
 
 
-```
-const ERC20_DECIMALS = 18;
-export { ERC20_DECIMALS };
-```
+### 3.1 Minter.
 
-
-We then export this value to the rest of the codebase.
-
-### 3.2 Index.
-
-Let us go ahead and create a file called _'index.js'_ under the utils folder. This file will contain 2 functions :
-
-First we create a function called truncateAddress which will take a user's address and shorten it.
-
-
-```
-// format a wallet address
-export const truncateAddress = (address) => {
-   if (!address) return
-   return address.slice(0, 5) + "..." + address.slice(address.length - 4, address.length);
-}
-```
-
-
-Next we have another function called formatBigNumber which basically converts a big number from wei into a normal readable value. In essence, when interacting with the smart contract, solidity the base unit for currency is Wei.
-
-Wei is the smallest denomination of ether—the [cryptocurrency](https://www.investopedia.com/terms/c/cryptocurrency.asp) coin used on the [Ethereum](https://www.investopedia.com/terms/e/ethereum.asp) network. One ether = 1,000,000,000,000,000,000 wei (10<sup>18</sup>). The other way to look at it is one wei is one quintillionth of an ether. Since Celo is basically based on Ethereum’s core technology, we are bound by these rules.
-
-
-```
-// convert from big number
-export const formatBigNumber = (num) => {
-   if (!num) return
-   return num.shiftedBy(-ERC20_DECIMALS).toFixed(2);
-}
-```
-
-
-Above we are also using the ERC20 decimals we created earlier. Let us go ahead and import it into at the top of our file.
-
-
-```
-import {ERC20_DECIMALS} from "./constants";
-```
-
-
-### 3.3 Minter.
-
-Let us go ahead and create a file called _'minter.js'_ . Basically, this file will contain all the login we use in creating and fetching our NFTs.
+Let us go ahead and rename the *'dapp.js'* file under the *'utils'* folder to *'minter.js'* . Basically, this file will contain all the login we use in creating and fetching our NFTs.
 
 First we import the libraries we need for this file.
 
@@ -1113,7 +843,7 @@ import axios from "axios";
 ```
 
 
-The _'ipfs-http-client'_ library is basically a wrapper which enables us to interact with the IPFS node. This is necessary as we do not save NFT data like attributes and other generic data on the blockchain directly, but instead save those data to IPFS and then save the hash returned by IPFS on the blockchain.
+The *'ipfs-http-client'* library is basically a wrapper which enables us to interact with the IPFS node. This is necessary as we do not save NFT data like attributes and other generic data on the blockchain directly, but instead save those data to IPFS and then save the hash returned by IPFS on the blockchain.
 
 For those who don't know what IPFS is, IPFS is a decentralized file-sharing system that can be leveraged to more efficiently store and share large files.
 
@@ -1242,7 +972,7 @@ try {
 ```
 
 
-Next we create another function called uploadToIPFS which enables us to save a file from our computer to IPFS.
+Next we create another function called uploadToIPFS which enables us to save a file from our local files to IPFS.
 
 
 ```
@@ -1262,7 +992,7 @@ export const uploadToIpfs = async (e) => {
 ```
 
 
-Next, let us go ahead and create another function called _‘fetchNftMeta’_ which returns the metadata of an NFT from IPFS.
+Next, let us go ahead and create another function called *‘fetchNftMeta’* which returns the metadata of an NFT from IPFS.
 
 
 ```
@@ -1281,7 +1011,7 @@ export const fetchNftMeta = async (ipfsUrl) => {
 
 Let us create 2 more functions
 
-_‘FetchNFTOwner’_, as the name implies, this fetches the address of the person that owns a particular NFT.
+*‘FetchNFTOwner’*, as the name implies, this fetches the address of the person that owns a particular NFT.
 
 
 ```
@@ -1296,7 +1026,7 @@ export const fetchNftOwner = async (minterContract, index) => {
 ```
 
 
-FetchNftContractOwner returns the address that deployed the NFT smart contract.
+*'FetchNftContractOwner'* returns the address that deployed the NFT smart contract.
 
 
 ```
@@ -1312,9 +1042,9 @@ export const fetchNftContractOwner = async (minterContract) => {
 ```
 
 
-Finally, the last function is the getNfts function that fetches all the NFTs on the smart contract.
+Finally, the last function is the *'getNfts'* function that fetches all the NFTs on the smart contract.
 
-Firstly, you need to know how many NFTs are stored in the contract, so you can iterate over them. Create nftsLength to store the number of NFTS and use contract.methods to call totalSupply() from your contract and assign its value.
+Firstly, you need to know how many NFTs are stored in the contract, so you can iterate over them. The nftsLength variable will store the number of NFTS and we use totalSupply() function from your contract and assign its value.
 
 Next, declare an empty array for the NFT objects.
 
@@ -1328,7 +1058,7 @@ export const getNfts = async (minterContract) => {
 ```
 
 
-Now, loop over the length of your NFTs. For each NFT, create a promise in which you call your contracts tokenURI to get the IPFS hash of the NFT.
+Now, loop over the length of your NFTs. For each NFT, we call the tokenURI  function to get the IPFS hash of the NFT.
 
 Next we use the hash to get the metadata from IPFS using the fetchNFTMeta function and also get the owner of the NFT using the fetchNftOwner function we created earlier.
 
@@ -1364,150 +1094,12 @@ With that we are done with our helper functions!.
 
 ## 4. Hooks
 
-In this section we’d be going over the hooks we will use in this DApp.
 
-Hooks are functions that let you “hook into” React state and lifecycle features from function components. Hooks don’t work inside classes — they let you use React without classes. We have hooks already provided by react with include useState, useParams etc. We want to create our own custom hooks to provide custom functionalities to our DApp.
-
-Go ahead and create a folder called _'hooks'_ under the _'src'_ folder.
-
-This folder will contain all the custom hooks we will be creating.
-
-We will make use of some inbuilt react hooks to create our own custom hooks. We will also use the useContractKit from celo-tools/use-contractkit.
-
-### 4.1 useBalance.
-
-Let us create our first hook called useBalance. This hook will basically return the balance of the wallet connected to our DApp.
-
-Let us first import the required hooks and library into our file.
-
-
-```
-import { useState, useEffect, useCallback } from 'react';
-import { useContractKit } from '@celo-tools/use-contractkit';
-```
-
-
-Next we declare our hook, and we will use destructuring to get the user address from useContractKit as well as a kit which we can use to query on-chain data.
-
-
-```
-export const useBalance = () => {
- const { address, kit } = useContractKit();
- const [balance, setBalance] = useState(0);
-```
-
-
-We are using usestate to temporarily store the balance of the user, and we set the default as 0.
-
-
-
-Next let us create a function inside this hook called getBalance that fetches the balance of the user.
-
-
-```
-const getBalance = useCallback(async () => {
-
- // fetch a connected wallet token balance
- const value = await kit.getTotalBalance(address);
- setBalance(value);
-}, [address, kit]);
-```
-
-
-We are using a useCallback hook which is a react hook that prevents a component from re-rendering unless its props have changed. This provides a performance boost to our hook.
-
-We then use the getTotalBalance from Celo kit to fetch the balance of the user address and store it using our useState hook.
-
-Next let us call our getBalance function in a useEffect hook.
-
-A useEffect hook allows you to run side effects in your component which include fetching DOM. This hook runs every time the component or hook renders.
-
-
-```
-useEffect(() => {
- if (address) getBalance();
-}, [address, getBalance]);
-```
-
-
-This will basically call our getBalance function and update our state anytime this hook is called or rendered.
-
-Finally let us return the users balance as well as the getBalance function.
-
-
-```
-return {
-   balance,
-   getBalance,
- };
-};
-```
-
-
-### 4.2 useContract.
-
-Let us go ahead and create a new hook. First, create a file called _'useContract.js'_ under the _hooks_ folder.
-
-This hook will basically u
-
-Our imports will be the same as our previous useBalance hook
-
-
-```
-import { useState, useEffect, useCallback } from 'react';
-import { useContractKit } from '@celo-tools/use-contractkit';
-```
-
-
-Next we declare our hook, and we will use destructuring to get the user address from useContractKit as well as a getConnectedKit.
-
-This hook will take 2 arguments, the ABI for the smart contract as well as the contract address and it will convert your function calls into RPC. Now you can interact with your smart contract as if it were a Javascript object.
-
-When a user refreshes or navigates back to your page, they may not necessarily have a connected account any longer, however, we shouldn't need to prompt them to log in again just to view the page, that can be done only when doing an action. So we use the getConnectedKit for that.
-
-
-```
-export const useContract = (abi, contractAddress) => {
- const { getConnectedKit, address } = useContractKit();
- const [contract, setContract] = useState(null);
-```
-
-
-Next we define our function called getContract
-
-
-```
-const getContract = useCallback(async () => {
- const kit = await getConnectedKit();
-
- // get a contract interface to interact with
- setContract(new kit.web3.eth.Contract(abi, contractAddress));
-}, [getConnectedKit, abi, contractAddress]);
-```
-
-
-We use the web3 from celo kit to convert the abi and contract address into an RPC.
-
-We also use the useCallback hook which adds a performance boost and also we pass the getConnectedKit, abi and contractAddress into its dependency array. This implies whenever any of these values change this function will re-run.
-
-Finally we call our function in a useEffect hook and return the RPC
-
-
-```
-useEffect(() => {
-   if (address) getContract();
- }, [address, getContract]);
-
- return contract;
-};
-```
-
-
-### 4.3 useMinterContract.
+### 4.1 useMinterContract.
 
 Finally, let us create our last hook called useMinterContract. This hook is basically going to call the useContract hook and return the RPC.
 
-Let us create a new file called _'useMinterContract.js'_ under the hooks folder.
+Let us rename the *'useDappContract.js'* under the *'hooks'* folder to *'useMinterContract'*.
 
 We will import the NFT smart contract ABI and contract address.
 
@@ -1523,182 +1115,56 @@ export const useMinterContract = () => useContract(MyNFTAbi.abi, MyNFTContractAd
 ```
 
 
-Finally, lets create a file called _'index.js'_ which will export all our hooks to the rest of the codebase.
+Finally, lets update the *'index.js'* to export our updated file
 
 
 ```
 export * from './useMinterContract';
-export * from './useBalance';
+
+...
 export * from './useContract';
 ```
 
 
 ## 5. Piecing It All Together.
 
-Finally, we are done with all our hooks, helper functions and UI components, we can piece everything together to ensure our DApp works fine.
+Finally, we are done with all our hooks, helper functions and UI components, we can piece everything together and display our NFT components.
 
-Let us go back to our _'app.js'_ and update the code there.
-
-Firstly, you can clear the initial code we had there. Next go ahead and add the imports
-
-
-```
-import React from "react";
-import { useContractKit } from "@celo-tools/use-contractkit";
-import Wallet from "./components/wallet";
-import { Notification } from "./components/ui/Notifications";
-import Cover from "./components/Cover";
-import Nfts from "./components/minter/nfts";
-import coverImg from "./assets/img/nft_geo_cover.png";
-import "./App.css";
-import "@celo-tools/use-contractkit/lib/styles.css";
-import "react-toastify/dist/ReactToastify.min.css";
-import { useBalance, useMinterContract } from "./hooks";
-import { Container, Nav } from "react-bootstrap";
-```
-
-
-Next we initialize our App component and call some hooks we create before as well as get some functions from the useContractKit
-
-
-```
-const App = function AppWrapper() {
- /*
- address : fetch the connected wallet address
- destroy: terminate connection to user wallet
- connect : connect to the celo blockchain
-  */
- const {address, destroy, connect} = useContractKit();
-
- //  fetch user's celo balance using hook
- const {balance, getBalance} = useBalance();
-
- // initialize the NFT mint contract
- const minterContract = useMinterContract();
-```
-
-
-Next, we create the interface of our component. We import the notification component to display notifications in our DApp.
-
-
-```
-return (
-   <>
-     <Notification/>
-```
+Let us go back to our *'App.js'* and update the code there.
 
 
 Next we check if the user wallet is connected to the DApp and display the NFTs and Wallet component
 
+Firstly we import the the useMinterContract hook and Nfts component into our *'App.js'*
 
 ```
-{address ? (
-   <Container fluid="md">
-     <Nav className="justify-content-end pt-3 pb-5">
-       <Nav.Item>
+...
 
-         {/*display user wallet*/}
-         <Wallet
-             address={address}
-             amount={balance.CELO}
-             symbol="CELO"
-             destroy={destroy}
-         />
-       </Nav.Item>
-     </Nav>
-     <main>
+import Wallet from "./components/wallet";
+import { useBalance, useMinterContract } from "./hooks";
+import Nfts from "./components/minter/nfts";
 
-       {/*list NFTs*/}
-       <Nfts
-           name="GEO Collection"
-           updateBalance={getBalance}
-           minterContract={minterContract}
-       />
-     </main>
-   </Container>
-)
-```
-
-
-If the user address does not exist we then display our beautiful cover page prompting them to connect their wallet.
-
+...
 
 ```
-: (
-           //  if user wallet is not connected display cover page
-           <Cover name="GEO Collection" coverImg={coverImg} connect={connect}/>
-       )}
-     </>
- );
-};
 
-export default App;
+Secondly we add the *'Nfts'* component we just imported into our component. Render the component just before the closing Container tag
+```
+...
+       <main>
+
+                {/*list NFTs*/}
+                <Nfts
+                    name="GEO Collection"
+                    updateBalance={getBalance}
+                    minterContract={minterContract}
+                />
+              </main>
+            </Container>
+            
+.....
 ```
 
-
-Finally, we need to wrap our entire react DApp in a ContractKitProvider provided to us by the celo-tools/use-contractkit library.
-
-use-contractkit uses [unstated-next](https://github.com/jamiebuilds/unstated-next) under the hood to inject state throughout your application. unstated-next is built on top of the React Context API so you need to make sure your application is wrapped with the provider before usage.
-
-Open up your _'index.js'_ file and first update the imports
-
-
-```
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {
- ContractKitProvider,
- Alfajores,
- NetworkNames,
-} from '@celo-tools/use-contractkit';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-```
-
-
-We are using the Alfajores network as this is the testnet of the Celo Blockchain.
-
-Next we wrap our App component with the ContractKitProvider.
-
-
-```
-ReactDOM.render(
- <React.StrictMode>
-   <ContractKitProvider
-     networks={[Alfajores]}
-     network={{
-       name: NetworkNames.Alfajores,
-       rpcUrl: 'https://alfajores-forno.celo-testnet.org',
-       graphQl: 'https://alfajores-blockscout.celo-testnet.org/graphiql',
-       explorer: 'https://alfajores-blockscout.celo-testnet.org',
-       chainId: 44787,
-     }}
-     dapp={{
-       name: 'Geo Collection.',
-       description: 'An NFT collection of geometric forms.',
-       url: 'https://dacade.org',
-     }}
-   >
-     <App />
-   </ContractKitProvider>
- </React.StrictMode>,
- document.getElementById('root'),
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-```
-
-
-We pass in the networks as Alfajores and set the network to the default network settings for the Celo Alfajores testnet.
-
-Finally we update the dapp to enter the data about our application which includes the name, url and description of our DApp. You can change this to whatever you want.
-
-The rest of the code is boilerplate code provided to use when you create your react app with create-react-app and we don't need to bother about that in this tutorial.
 
 ## 6. Deploy your DApp to Netlify
 
