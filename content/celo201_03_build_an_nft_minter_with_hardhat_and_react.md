@@ -9,7 +9,7 @@ We will be able to deploy an NFT contract to the Celo Alfajores network and inte
 The minter will be able to mint NFTs with attributes for the Celo Alfajores network and show all NFTs that have been minted as well as who currently owns them.
 
 The finished minter dapp will behave like this:
-![](https://raw.githubusercontent.com/dacadeorg/celo-development-201/master/content/gifs/minter-demo.gif)
+![](https://raw.githubusercontent.com/dacadeorg/celo-development-201/main/content/gifs/minter_demo.gif)
 
 ### Prerequisites
 
@@ -76,14 +76,14 @@ Let's deploy our `counter` contract to the Celo Alfajores testnet:
 npx hardhat run --network alfajores scripts/deploy.js
 ```
 
-Next start the dapp:
+Next, start the dapp:
 
 ```sh
 npm start
 ```
 
 The boilerplate should now behave like this:
-![](https://raw.githubusercontent.com/dacadeorg/celo-development-201/master/content/gifs/boilerplate-demo.gif)
+![](https://raw.githubusercontent.com/dacadeorg/celo-development-201/main/content/gifs/boilerplate_demo.gif)
 
 Let's see how the boilerplate works.
 
@@ -1469,7 +1469,7 @@ npm start
 Your dapp should be running on [http://localhost:3000](http://localhost:3000).
 
 Test your Dapp by connecting and minting an NFT. It should behave like this:
-![](https://raw.githubusercontent.com/dacadeorg/celo-development-201/master/content/gifs/minter-demo.gif)
+![](https://raw.githubusercontent.com/dacadeorg/celo-development-201/main/content/gifs/minter_demo.gif)
 
 
 ## 7. Deploying to GitHub Pages
