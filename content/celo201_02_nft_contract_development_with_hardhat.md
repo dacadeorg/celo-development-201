@@ -7,7 +7,7 @@ This learning module consists of a tutorial that will teach you how to develop, 
 You will need the following for this learning module:
 
 - [Node JS](https://nodejs.org/en/download/) - Please ensure you have Node.js v12 or higher installed.
-- Understanding of Solidity and the Celo Blockchain.
+- Basic understanding of NFT contracts as described in our [Intro to NFT Contract Development](https://hackmd.io/1_56InhcSO-oqrF8WXfhaQ) learning module.
 - Be comfortable using a terminal.
 
 ### Tech Stack
@@ -127,7 +127,7 @@ npm install dotenv
 
 For the next part, you will need to have Metamask installed with an account that has Alfajores testnet tokens.
 
-In the [Intro to NFT Contract Development]() learning module, you learn how to create an account via Metamask and how to get testnet tokens for it via the Celo faucet. You will need to do this for the next part.
+In the [Intro to NFT Contract Development](https://hackmd.io/1_56InhcSO-oqrF8WXfhaQ) learning module, you learn how to create an account via Metamask and how to get testnet tokens for it via the Celo faucet. You will need to do this for the next part.
 
 In Metamask, you can click on the identicon, go to settings, select "Security & Privacy ", click on "Reveal Secret Recovery Phrase", and copy that phrase.
 
@@ -505,7 +505,7 @@ Delete the example contract `contracts/Greeter.sol`:
 rm contracts/Greeter.sol
 ```
 
-For this section, we expect you to have gone through the [Intro to NFT Contract Development]() learning module and are familiar with NFT contracts.
+For this section, we expect you to have gone through the [Intro to NFT Contract Development](https://hackmd.io/1_56InhcSO-oqrF8WXfhaQ) learning module and are familiar with NFT contracts.
 
 We used Openzeppelin's [Contract Wizard](https://docs.openzeppelin.com/contracts/4.x/wizard) to create a secure contract that implements the ERC721 standard. The contract implements some additional features:
 
@@ -753,6 +753,6 @@ MyNFT deployed to: 0xcAa4101e01dC69EebF3C2EbEaA311af03bc3242D
 
 As described in the previous section, you can now check your contract in the Celo Blockchain Explorer. You can also call your functions in the console to mint an NFT and transfer it to another account, for example.
 
-Remember that you will need to provide some metadata as described in the [Intro to NFT Contract Development]() learning module.
+Remember that you will need to provide some metadata as described in the [Intro to NFT Contract Development](https://hackmd.io/1_56InhcSO-oqrF8WXfhaQ) learning module.
 
-Great job! You have now completed the NFT tutorial. You can now continue to the next learning module, which will teach you how to [Build an NFT Minter with Hardhat and React]().
+Great job! You have now completed the NFT tutorial. You can now continue to the next learning module, which will teach you how to [Build an NFT Minter Dapp with React](https://hackmd.io/N4htCobqRKKI3mkjnc59Rg).

@@ -1,4 +1,4 @@
-# Celo 201 - Build an NFT Minter with Hardhat and React
+# Celo 201 - Build an NFT Minter Dapp with React
 
 In this learning module, we will build the frontend for an NFT minting contract.
 
@@ -64,7 +64,7 @@ MNEMONIC="YOUR_SECRET_RECOVERY_PHRASE"
 
 In this case, we are using a mnemonic from an account created on Metamask. You can copy it from your Metamask account settings. An account created on the Celo extension wallet will not work.
 
-You can find more details about the whole process in the [NFT Contract development with Hardhat]() learning module.
+You can find more details about the whole process in the [NFT Contract Development with Hardhat](https://hackmd.io/exuZTH2hTqKytn2vxgDmcg) learning module.
 
 5. Run the boilerplate.
 
@@ -99,7 +99,7 @@ Your project should now have the following folder structure:
 └── test
 ```
 
-It is useful to have finished our learning module: [NFT Contract development with Hardhat](). The `contracts`, `scripts`, and `test` folders belong to the Hardhat environment and are explained in more detail in that module.
+It is useful to have finished our learning module: [NFT Contract Development with Hardhat](https://hackmd.io/exuZTH2hTqKytn2vxgDmcg). The `contracts`, `scripts`, and `test` folders belong to the Hardhat environment and are explained in more detail in that module.
 
 The `contracts` folder contains the smart contracts that Hardhat uses. In the case of the boilerplate, this is an example `Counter` smart contract.
 
@@ -327,7 +327,7 @@ Now we can adapt the boilerplate to our needs.
 ## 3. Minter contract
 
 In this section, we will create the smart contract for the minter dapp, create tests for the smart contract and deploy it to the Celo testnet.
-We will keep this chapter brief; a more detailed explanation of NFTs and Hardhat development is provided in the [NFT Contract development with Hardhat]() learning module.
+We will keep this chapter brief; a more detailed explanation of NFTs and Hardhat development is provided in the [NFT Contract Development with Hardhat](https://hackmd.io/exuZTH2hTqKytn2vxgDmcg) learning module.
 
 ### 3.1 Contract
 
@@ -396,7 +396,7 @@ This contract is a simple NFT contract that has, among other things, the followi
 - It has a `tokenURI` function that returns the url of the NFT metadata.
 - It imports the `ER721Enumerable` contract that allows us to keep track of all the NFTs that have been minted.
 
-You can find more details about this contract in the [NFT Contract development with Hardhat]() learning module.
+You can find more details about this contract in the [NFT Contract Development with Hardhat](https://hackmd.io/exuZTH2hTqKytn2vxgDmcg) learning module.
 
 We import contracts from the `@openzeppelin/contracts` library. To use them, we need to add them to our project first:
 
@@ -472,7 +472,7 @@ describe("MyNFT", function () {
 
 In the first test, if the NFT contract was deployed correctly and the owner of the NFT is the same address as the address that deployed the contract, then the test should pass. In the second test, we mint an NFT and check if it is minted correctly to the first account. In the third test, we mint two NFTs and check if the tokenURI is set correctly.
 
-We explain the tests for this contract in more detail in the [NFT Contract development with Hardhat]() learning module.
+We explain the tests for this contract in more detail in the [NFT Contract Development with Hardhat](https://hackmd.io/exuZTH2hTqKytn2vxgDmcg) learning module.
 
 Now we can run the tests with the following command:
 
