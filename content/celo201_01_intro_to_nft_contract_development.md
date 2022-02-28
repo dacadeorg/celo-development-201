@@ -35,9 +35,12 @@ Blockchain Technology was originally invented to keep track of the ownership of 
 
 ### 1.1 Fungible and non-fungible tokens
 
-Assets like money: Bitcoin or a one-dollar bill, for example, are fungible. Fungible means that all assets are the same and are interchangeable. Assets like art, collectibles, or houses are non-fungible; they are all different and not interchangeable.
+-**Fungible** tokens or assets are those which consist or similarly or having equivalent value such as Bitcoin(BTC), dollar bill($) e.t.c.
+-Unlike the fungible tokens or assets like art, collectibles, houses e.t.c are **non-fungible** due to thier differences and lack of interchangeability.
 
-We can divide tokens into these two types: fungible tokens, where all tokens are the same, and non-fungible tokens (NFTs), where every token is unique.
+With this we can divide tokens into these two types;
+-Fungible tokens: where all tokens are the same, and 
+-Non-fungible tokens (NFTs), where every token is unique.
 
 ### 1.2 Token standard
 
