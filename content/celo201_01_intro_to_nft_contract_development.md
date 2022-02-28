@@ -35,8 +35,8 @@ Blockchain Technology was originally invented to keep track of the ownership of 
 
 ### 1.1 Fungible and non-fungible tokens
 
-- **Fungible** tokens or assets are those which consist or similarly or having equivalent value such as Bitcoin(BTC), dollar bill($) e.t.c.
-- Unlike the fungible tokens or assets like art, collectibles, houses e.t.c are **non-fungible** due to thier differences and lack of interchangeability.
+- **Fungible** tokens or assets are those which consist or similarl or having equivalent value such as Bitcoin(BTC), dollar bill($) e.t.c.
+- Unlike the fungible tokens or assets, assets like art work, collectibles, houses e.t.c are **non-fungible** due to their differences and lack of interchangeability.
 
 With this we can divide tokens into these two types;
 - Fungible tokens: where all tokens are the same, and 
@@ -50,7 +50,7 @@ If everybody created their own token contracts with different behavior and namin
 
 The Ethereum community has developed token standards that define how a developer can create tokens that are interoperable (able to work with others) with other contracts, products, and services. Contracts developed under these standards need to include a certain set of functions and events.
 
-Since Celo is an EVM compatible layer one scaling solution that allows writing contracts in Solidity, we can make use of Ethereum's token standards, contracts, and much of its tooling.
+Since Celo is an EVM(Ethereum Virtual Machine) compatible layer one scaling solution that allows writing contracts in Solidity, we can make use of Ethereum's token standards, contracts, and much of its tooling.
 
 The most popular token standards are the ERC20 for fungible tokens and the ERC721 for non-fungible tokens. In this course, we will learn how to create and interact with NFTs, tokens created with the ERC721 token standard.
 
