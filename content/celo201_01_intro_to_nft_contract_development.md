@@ -553,20 +553,20 @@ In this final section of this tutorial, we will create a Metamask wallet, deploy
 
 ```
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.2; // solidity version
 
-import "@openzeppelin/contracts@4.4.0/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts@4.4.0/access/Ownable.sol";
+import "@openzeppelin/contracts@4.4.0/token/ERC721/ERC721.sol"; // import of ERC721 from openzeppelin
+import "@openzeppelin/contracts@4.4.0/access/Ownable.sol"; // import of Ownable from openzeppelin
 
-contract Geometry is ERC721, Ownable {
-    constructor() ERC721("Geometry", "GEO") {}
+contract MyToken is ERC721, Ownable {
+    constructor() ERC721("MyToken", "MTK") {} // This is the inherited name() and symbol() functions to set NFT name and symbol.
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs/QmVrsYxXh5PzTfkKZr1MfUN6PotJj8VQkGQ3kGyBNVKtqp/";
+        return "https://ipfs.io/ipfs/QmVrsYxXh5PzTfkKZr1MfUN6PotJj8VQkGQ3kGyBNVKtqp/"; // The baseURL on the IPFS (This is the main url pointing to a folder to fetch data from.)
     }
 
     function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
+        _safeMint(to, tokenId); // this assign the token id on a safeMint call with the onwer address
     }
 }
 ```
