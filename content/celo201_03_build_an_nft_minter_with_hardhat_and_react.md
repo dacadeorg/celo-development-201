@@ -68,10 +68,6 @@ You can find more details about the whole process in the [NFT Contract Developme
 
 5. Run the boilerplate.
 
-```sh
-npm run dev
-```
-
 If you have a Metamask wallet installed that is connected to the Celo network, Alfajores, and have Celo testnet tokens, you can test the boilerplate now.
 
 Let's deploy our `counter` contract to the Celo Alfajores testnet:
