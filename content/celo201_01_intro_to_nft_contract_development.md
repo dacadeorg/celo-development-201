@@ -35,9 +35,12 @@ Blockchain Technology was originally invented to keep track of the ownership of 
 
 ### 1.1 Fungible and non-fungible tokens
 
-Assets like money: Bitcoin or a one-dollar bill, for example, are fungible. Fungible means that all assets are the same and are interchangeable. Assets like art, collectibles, or houses are non-fungible; they are all different and not interchangeable.
+- **Fungible** tokens or assets are those which consist or similarl or having equivalent value such as Bitcoin(BTC), dollar bill($) e.t.c.
+- Unlike the fungible tokens or assets, assets like art work, collectibles, houses e.t.c are **non-fungible** due to their differences and lack of interchangeability.
 
-We can divide tokens into these two types: fungible tokens, where all tokens are the same, and non-fungible tokens (NFTs), where every token is unique.
+With this we can divide tokens into these two types;
+- Fungible tokens: where all tokens are the same, and 
+- Non-fungible tokens (NFTs), where every token is unique.
 
 ### 1.2 Token standard
 
@@ -47,7 +50,7 @@ If everybody created their own token contracts with different behavior and namin
 
 The Ethereum community has developed token standards that define how a developer can create tokens that are interoperable (able to work with others) with other contracts, products, and services. Contracts developed under these standards need to include a certain set of functions and events.
 
-Since Celo is an EVM compatible layer one scaling solution that allows writing contracts in Solidity, we can make use of Ethereum's token standards, contracts, and much of its tooling.
+Since Celo is an EVM(Ethereum Virtual Machine) compatible layer one scaling solution that allows writing contracts in Solidity, we can make use of Ethereum's token standards, contracts, and much of its tooling.
 
 The most popular token standards are the ERC20 for fungible tokens and the ERC721 for non-fungible tokens. In this course, we will learn how to create and interact with NFTs, tokens created with the ERC721 token standard.
 
@@ -233,14 +236,14 @@ The function `safeTransferFrom` (line 55) transfers the ownership of a token wit
 
 The function `safeTransferFrom` (line 137) is almost identical to the function `safeTransferFrom` (line 55) .The only difference is that this function has a non-empty payload `data`.
 
-A smart contract must implement the ERC721TokenReceiver Interface if it is to receive a transfer. This will ensure that the contract can handle ERC721 token transfers and prevent the tokens from being locked in a contract that can't.
+A smart contract must implement the **ERC721TokenReceiver** Interface if it is to receive a transfer. This will ensure that the contract can handle ERC721 token transfers and prevent the tokens from being locked in a contract that can't.
 
 #### 2.1.4 transferFrom
 
-The function `transferFrom` (line 55) transfers the ownership of a token with the id `tokenId` from the account with the address `from` to the account with the address `to`.
+The function `transferFrom` (line 75) transfers the ownership of a token with the id `tokenId` from the account with the address `from` to the account with the address `to`.
 
 **It is recommended to use safeTransferFrom instead of transferFrom whenever possible.**
-The `transferFrom` function is not secure because it doesn’t check if the smart contract that is the recipient of the transfer has implemented the ERC721TokenReceiver interface and is capable of handling ERC721 tokens.
+The `transferFrom` function is not secure because it doesn’t check if the smart contract that is the recipient of the transfer has implemented the **ERC721TokenReceiver** interface and is capable of handling ERC721 tokens.
 
 #### 2.1.5 approve
 
@@ -550,20 +553,20 @@ In this final section of this tutorial, we will create a Metamask wallet, deploy
 
 ```
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.2; // solidity version
 
-import "@openzeppelin/contracts@4.4.0/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts@4.4.0/access/Ownable.sol";
+import "@openzeppelin/contracts@4.4.0/token/ERC721/ERC721.sol"; // import of ERC721 from openzeppelin
+import "@openzeppelin/contracts@4.4.0/access/Ownable.sol"; // import of Ownable from openzeppelin
 
-contract Geometry is ERC721, Ownable {
-    constructor() ERC721("Geometry", "GEO") {}
+contract MyToken is ERC721, Ownable {
+    constructor() ERC721("MyToken", "MTK") {} // This is the inherited name() and symbol() functions to set NFT name and symbol.
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs/QmVrsYxXh5PzTfkKZr1MfUN6PotJj8VQkGQ3kGyBNVKtqp/";
+        return "https://ipfs.io/ipfs/QmVrsYxXh5PzTfkKZr1MfUN6PotJj8VQkGQ3kGyBNVKtqp/"; // The baseURL on the IPFS (This is the main url pointing to a folder to fetch data from.)
     }
 
     function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
+        _safeMint(to, tokenId); // this assign the token id on a safeMint call with the onwer address
     }
 }
 ```

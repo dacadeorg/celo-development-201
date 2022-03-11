@@ -92,12 +92,13 @@ Change your `module.exports` to:
 // ...
 module.exports = {
   solidity: "0.8.4",
+  // declaring networks
   networks: {
     alfajores: {
-      url: "https://alfajores-forno.celo-testnet.org",
+      url: "https://alfajores-forno.celo-testnet.org", // (line 23) celo alfajores test network url
       accounts: {
-        mnemonic: process.env.MNEMONIC, // line 25
-        path: "m/44'/60'/0'/0", // line 26
+        mnemonic: process.env.MNEMONIC, // (line 25) MNEMONIC also know as "recovery phrase" are lst of secret words
+        path: "m/44'/60'/0'/0", // (line 26) derivation path 
       },
       chainId: 44787,
     },
@@ -113,7 +114,7 @@ We will need `dotenv` to read our mnemonic from our environment variable so let'
 
 ```js
 require("@nomiclabs/hardhat-waffle");
-require("dotenv").config({ path: ".env" });
+require("dotenv").config({ path: ".env" }); // importing the dotenv to read MNEMONIC
 // ...
 ```
 
@@ -614,7 +615,13 @@ Let's first delete the `test/sample-test.js` file:
 rm test/sample-test.js
 ```
 
-And create a new `test/nft-test.js` file with the following code:
+Create a new `test/nft-test.js` file:
+
+```sh
+touch scripts/deploy.js
+```
+
+Add the following code:
 
 ```js
 const { expect } = require("chai");
@@ -716,7 +723,13 @@ Delete the `scripts/sample-script.js` file:
 rm scripts/sample-script.js
 ```
 
-Create a new `scripts/deploy.js` file with the following code:
+Create a new `scripts/deploy.js` file:
+
+```sh
+touch scripts/deploy.js
+```
+
+Add the following code:
 
 ```js
 const hre = require("hardhat");
