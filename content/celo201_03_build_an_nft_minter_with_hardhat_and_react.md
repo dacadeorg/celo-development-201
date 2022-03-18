@@ -1,5 +1,3 @@
-# Celo 201 - Build an NFT Minter Dapp with React
-
 In this learning module, we will build the frontend for an NFT minting contract.
 
 This tutorial will walk you through building an NFT minter with Celo. The project will be a monorepo, meaning that the Hardhat contract environment will be in the same repository as the React frontend.
