@@ -1,5 +1,3 @@
-# Celo Development 201 - Intro to NFT Contract Development
-
 In this learning module, you will learn fundamental knowledge about NFTs and how to write and deploy your own NFT contract to the Alfajores testnet of the Celo blockchain.
 
 ### Prerequisites
