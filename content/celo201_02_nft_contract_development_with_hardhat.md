@@ -1,5 +1,3 @@
-# Celo Development 201 - NFT Contract Development with Hardhat
-
 This learning module consists of a tutorial that will teach you how to develop, test and deploy smart contracts with Hardhat to the Celo testnet Alfajores. We will use an NFT contract as an example.
 
 ### Prerequisites
