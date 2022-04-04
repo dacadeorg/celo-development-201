@@ -66,7 +66,7 @@ The ERC721 standard is more complex than the ERC20 standard, and it features opt
 
 The interface implementation we are going to look at, is part of the open-source contract library provided by <a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol" target="_blank">OpenZeppelin</a>.
 
-```
+```solidity
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts v4.4.0 (token/ERC721/IERC721.sol)
 
@@ -304,7 +304,7 @@ IERC721Metadata enables a contract to associate additional information to a toke
 
 The metadata extension is optional. It allows us to add additional information to our ERC721 tokens. We can specify a name, a symbol, and a URI (Uniform Resource Identifier) that can point to a file where we can add even more information in the form of a JSON.
 
-```
+```solidity
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts v4.4.0 (token/ERC721/extensions/IERC721Metadata.sol)
 
@@ -352,7 +352,7 @@ The function `tokenURI` (line 26) returns the URI for the token with the id `tok
 
 The file that the tokenURI points to should conform to the Metadata JSON Schema as it is specified in the <a href="https://eips.ethereum.org/EIPS/eip-721#specification" target="_blank">EIP-721</a>.
 
-```
+```solidity
 {
     "title": "Asset Metadata",
     "type": "object",
@@ -381,7 +381,7 @@ The ERC721 standard is pretty flexible, the tokenURI does not need to point to a
 
 In this contract, we use an ERC721 token contract implementation from OpenZeppelin.
 
-```
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
@@ -490,7 +490,7 @@ For the image URL, we are going to use the URL of our images on IPFS. You can ad
 
 This is how the JSON for the first token could look:
 
-```
+```json
 {
     "name": "Geometry#0",
     "description": "Geometry is an NFT collection for educational purposes.",
@@ -506,7 +506,7 @@ This is how the JSON for the first token could look:
 
 This is how the JSON for the second token could look:
 
-```
+```json
 {
     "name": "Geometry#1",
     "description": "Geometry is an NFT collection for educational purposes.",
@@ -546,7 +546,7 @@ An individual tokenURI will now be created for each token by adding the tokenId 
 
 In this final section of this tutorial, we will create a Metamask wallet, deploy our contract to the Celo testnet Alfajores with the Remix IDE, and mint our first NFT.
 
-```
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 

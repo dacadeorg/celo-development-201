@@ -135,7 +135,7 @@ In the `index.js` file, we import the React library and the `App` component, as 
 In order to connect to a Celo network, we need to wrap the `ContractKitProvider` around the `App` component:
 
 ```js
-...
+//...
 ReactDOM.render(
   <React.StrictMode>
     <ContractKitProvider
@@ -157,7 +157,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-...
+//...
 ```
 
 The `use-contractkit` provides a `network` variable that contains the network configuration. We can use this to connect to the Celo testnet Alfajores.
