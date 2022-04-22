@@ -619,4 +619,4 @@ This GIF demonstrates how to mint an NFT:
 
 That's it! You can now create your own NFT contracts and mint your own NFTs on the Alfajores testnet.
 
-You can now continue to the next learning module, which will teach you how to do [NFT Contract Development with Hardhat](https://hackmd.io/exuZTH2hTqKytn2vxgDmcg).
+You can now continue to the next learning module, which will teach you how to do [NFT Contract Development with Hardhat](https://dacade.org/communities/celo/courses/celo-201/learning-modules/39cc77c1-0362-4396-9957-1816609a659f).
