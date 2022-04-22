@@ -135,7 +135,7 @@ In the `index.js` file, we import the React library and the `App` component, as 
 In order to connect to a Celo network, we need to wrap the `ContractKitProvider` around the `App` component:
 
 ```js
-...
+//...
 ReactDOM.render(
   <React.StrictMode>
     <ContractKitProvider
@@ -157,7 +157,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-...
+//...
 ```
 
 The `use-contractkit` provides a `network` variable that contains the network configuration. We can use this to connect to the Celo testnet Alfajores.
@@ -329,7 +329,7 @@ We will keep this chapter brief; a more detailed explanation of NFTs and Hardhat
 
 ### 3.1 Contract
 
-Inside the `contracts` folder in our root directory, we find the `MyContract.sol` file. Delete that file and create a new one, called `MyNFT.sol`. Add the following code to the file:
+Inside the `contracts` folder in our root directory, we find the `Counter.sol` file. Delete that file and create a new one, called `MyNFT.sol`. Add the following code to the file:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -416,7 +416,7 @@ Solidity compilation finished successfully
 
 ### 3.2 Tests
 
-Let's add some tests for our contract. Inside the `tests` folder in our root directory, we delete the `contracts-test.js` file and create a new one called `nft-test.js`. Add the following code to the file:
+Let's add some tests for our contract. Inside the `tests` folder in our root directory, we delete the `counter-test.js` file and create a new one called `nft-test.js`. Add the following code to the file:
 
 ```js
 const { expect } = require("chai");

@@ -215,7 +215,7 @@ interface IERC721 is IERC165 {
 
 ### 2.1 IERC721 Functions
 
-Contracts compliant with the ERC20 standard have to implement the following functions:
+Contracts compliant with the ERC721 standard have to implement the following functions:
 
 #### 2.1.1 balanceOf
 
