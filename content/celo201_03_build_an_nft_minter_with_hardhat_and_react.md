@@ -1107,7 +1107,7 @@ export * from "./useContract";
 
 Let's continue with the real logic of the minter.
 
-### 5.3 hooks/minter.js
+### 5.3 utils/minter.js
 
 Inside the `utils` folder in our `src` directory, we can delete the `counter.js` file and create a new one called `minter.js`. 
 
