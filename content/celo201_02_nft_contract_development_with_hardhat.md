@@ -312,7 +312,7 @@ You should then see something like the following output:
 
 With the last command, we ran our test on the built-in Hardhat Network, a local Ethereum network that allows us to test and debug our smart contracts.
 
-This is not the Celo blockchain; if you want to run the Celo blockchain locally, you should have a look at [Celo Ganache](https://github.com/celo-org/ganache-core) and how to run a [Loca Development Chain](https://docs.celo.org/developer-guide/development-chain).
+This is not the Celo blockchain; if you want to run the Celo blockchain locally, you should have a look at [Celo Ganache](https://github.com/celo-org/ganache-core) and how to run a [Local Development Chain](https://docs.celo.org/developer-guide/development-chain).
 
 For this tutorial, we will test our contracts locally on the Hardhat Network and then on the Celo Alfajores testnet.
 
