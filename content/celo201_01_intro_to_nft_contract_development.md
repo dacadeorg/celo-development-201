@@ -494,8 +494,7 @@ This is how the JSON for the first token could look:
 {
     "name": "Geometry#0",
     "description": "Geometry is an NFT collection for educational purposes.",
-    "image": "https://ipfs.io/ipfs/QmTJok2tju9zstjtAqESdZxTiUiFCBAyApHiDVj4maV75P/geo_1.png
-",
+    "image": "https://ipfs.io/ipfs/QmTJok2tju9zstjtAqESdZxTiUiFCBAyApHiDVj4maV75P/geo_1.png",
     "attributes": [
         { "trait_type": "background", "value": "cyan" },
         { "trait_type": "color", "value": "red" },
