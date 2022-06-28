@@ -352,7 +352,7 @@ The function `tokenURI` (line 26) returns the URI for the token with the id `tok
 
 The file that the tokenURI points to should conform to the Metadata JSON Schema as it is specified in the <a href="https://eips.ethereum.org/EIPS/eip-721#specification" target="_blank">EIP-721</a>.
 
-```solidity
+```json
 {
     "title": "Asset Metadata",
     "type": "object",
