@@ -1130,7 +1130,7 @@ IPFS is a peer-to-peer distributed content storage network. It is a protocol tha
 Let's install both `ipfs-http-client` and `axios`:
 
 ```sh
-npm install ipfs-http-client axios
+npm install ipfs-http-client@56.0.1 axios
 ```
 
 Next, let's add a `createNft` function that will mint an NFT:
