@@ -826,14 +826,14 @@ First, we do our imports:
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
-import { uploadToIpfs } from "../../../utils/minter";
+import { uploadFileToWebStorage } from "../../../utils/minter";
 
 const COLORS = ["Red", "Green", "Blue", "Cyan", "Yellow", "Purple"];
 const SHAPES = ["Circle", "Square", "Triangle"];
 // ...
 ```
 
-We import the `uploadToIpfs` function from the `utils` folder that we will create later.
+We import the `uploadFileToWebStorage` function from the `utils` folder that we will create later.
 
 Then we create two arrays, one for the `COLORS` and one for the `SHAPES`, with some values that we will use as attributes for the NFT.
 
@@ -957,7 +957,7 @@ return (
               type="file"
               className={"mb-3"}
               onChange={async (e) => {
-                const imageUrl = await uploadToIpfs(e);
+                const imageUrl = await uploadFileToWebStorage(e);
                 if (!imageUrl) {
                   alert("failed to upload image");
                   return;
@@ -1116,21 +1116,20 @@ In our `minter.js` file, we will start with our imports:
 Let's start again with our imports:
 
 ```js
-import { create as ipfsHttpClient } from "ipfs-http-client";
+import {Web3Storage} from 'web3.storage/dist/bundle.esm.min.js'
 import axios from "axios";
 
-const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 // ...
 ```
 
-We import the `ipfs-http-client` library and the `axios` library. We will use the `axios` library to make requests to an IPFS node.
+We import the `Web3Storage` library and the `axios` library. We will use the `axios` library to make requests to an IPFS node.
 
 IPFS is a peer-to-peer distributed content storage network. It is a protocol that allows users to store and share data. We will use IPFS to store the metadata of our NFTs and images for the NFTs. We initialize the IPFS `client`.
 
-Let's install both `ipfs-http-client` and `axios`:
+Let's install both `Web3Storage` and `axios`:
 
 ```sh
-npm install ipfs-http-client@56.0.1 axios
+npm install web3.storage axios
 ```
 
 Next, let's add a `createNft` function that will mint an NFT:
@@ -1189,24 +1188,42 @@ With the following function, we will add the ability to upload a local image to 
 
 ```js
 // ...
-export const uploadToIpfs = async (e) => {
-  const file = e.target.files[0];
+export const uploadFileToWebStorage = async (e) => {
+  // Construct with token and endpoint
+  const client = new Web3Storage({token: process.env.REACT_APP_STORAGE_API_KEY})
+
+  const file = e.target.files;
   if (!file) return;
-  try {
-    const added = await client.add(file, {
-      progress: (prog) => console.log(`received: ${prog}`),
-    });
-    return `https://ipfs.infura.io/ipfs/${added.path}`;
-  } catch (error) {
-    console.log("Error uploading file: ", error);
-  }
+  // Pack files into a CAR and send to web3.storage
+  const rootCid = await client.put(file) // Promise<CIDString>
+
+  // Fetch and verify files from web3.storage
+  const res = await client.get(rootCid) // Promise<Web3Response | null>
+  const files = await res.files() // Promise<Web3File[]>
+
+  return `https://ipfs.infura.io/ipfs/${files[0].cid}`;
 };
 // ...
 ```
 
 This part is pretty straightforward. If the user has selected an image, we get the file from the `e` event and upload it to IPFS. We get the `added` object from the IPFS client and return the path of the file.
+We store our WebStorage API key in our .env file.
+On how to get an API key, you can follow these easy steps:
 
-We also need one function to fetch all NFTs that have been minted from our contract. We will call this function `getNfts`:
+Go to web3.storage/login to get started.
+Enter your email address.
+Check your inbox for a verification email from Web3.Storage, and click the Log in button in the email.
+You're all set!
+Now that you're signed up and logged in, it's time to get your API token. ↓
+
+###Get an API token
+It only takes a few moments to get a free API token from Web3.Storage. This token enables you to interact with the Web3.Storage service without using the main website, enabling you to incorporate files stored using Web3.Storage directly into your applications and services.
+
+Hover over Account and click Create an API Token in the dropdown menu to go to your Web3.Storage API Tokens page.
+Enter a descriptive name for your API token and click Create.
+Make a note of the Token field somewhere secure where you know you won't lose it. You can click Copy to copy your new API token to your clipboard.
+
+We need one function to fetch all NFTs that have been minted from our contract. We will call this function `getNfts`:
 
 ```js
 // ...
