@@ -1136,7 +1136,7 @@ Firstly, let us create helper functions to help in the creation of the NFTs.
 ```js
 const formatName = (name) => {
     // replace all spaces with %20
-    return name.replace(/\s/g, '%20');
+    return encodeURI(name);
 };
 
 // object to convert to file
