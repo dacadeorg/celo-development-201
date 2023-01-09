@@ -1131,6 +1131,21 @@ Let's install both `Web3Storage` and `axios`:
 ```sh
 npm install web3.storage axios
 ```
+Firstly, let us create helper functions to help in the creation of the NFTs.
+
+```js
+const formatName = (name) => {
+    // replace all spaces with %20
+    return encodeURI(name);
+};
+
+// object to convert to file
+const convertObjectToFile = (data) => {
+    const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
+    const files = [new File([blob], `${data.name}.json`)];
+    return files;
+};
+```
 
 Next, let's add a `createNft` function that will mint an NFT:
 
@@ -1146,27 +1161,32 @@ export const createNft = async (
     const { defaultAccount } = kit;
 
     // convert NFT metadata to JSON format
-    const data = JSON.stringify({
+    const data = {
       name,
       description,
       image: ipfsImage,
       owner: defaultAccount,
       attributes,
-    });
+    };
 
     try {
-      // save NFT metadata to IPFS
-      const added = await client.add(data);
+      // trim any extra whitespaces from the name and
+      // replace the whitespace between the name with %20
+      const fileName = formatName(name);
+
+      //  bundle nft metadata into a file
+      const files = convertObjectToFile(data);
+
+      // save NFT metadata to web3 storage
+      const cid = await client.put(files);
 
       // IPFS url for uploaded metadata
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const url = `https://${cid}.ipfs.w3s.link/${fileName}.json`;
 
       // mint the NFT and save the IPFS url to the blockchain
-      let transaction = await minterContract.methods
-        .safeMint(ownerAddress, url)
-        .send({ from: defaultAccount });
-
-      return transaction;
+      return await minterContract.methods
+              .safeMint(ownerAddress, url)
+              .send({from: defaultAccount});
     } catch (error) {
       console.log("Error uploading file: ", error);
     }
@@ -1189,19 +1209,16 @@ With the following function, we will add the ability to upload a local image to 
 ```js
 // ...
 export const uploadFileToWebStorage = async (e) => {
-  // Construct with token and endpoint
+  // Initialize the client with an API key
   const client = new Web3Storage({token: process.env.REACT_APP_STORAGE_API_KEY})
-
-  const file = e.target.files;
-  if (!file) return;
-  // Pack files into a CAR and send to web3.storage
-  const rootCid = await client.put(file) // Promise<CIDString>
-
-  // Fetch and verify files from web3.storage
-  const res = await client.get(rootCid) // Promise<Web3Response | null>
-  const files = await res.files() // Promise<Web3File[]>
-
-  return `https://ipfs.infura.io/ipfs/${files[0].cid}`;
+  const files = e.target.files;
+  const file = files[0];
+  
+  const fileName = file.name;
+  const imageName = formatName(fileName);
+  
+  const cid = await client.put(files);
+  return `https://${cid}.ipfs.w3s.link/${imageName}`;
 };
 // ...
 ```
